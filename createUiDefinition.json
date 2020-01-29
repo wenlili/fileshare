@@ -4,43 +4,37 @@
    "version": "0.1.2-preview",
    "parameters": {
         "basics": [
-            {}
+            {
+                "name": "workspaceName",
+                "type": "Microsoft.Common.TextBox",
+                "label": "Workspace name",
+                "defaultValue": "my workspace name",
+                "toolTip": "Use only allowed characters",
+                "constraints": {
+                    "required": true,
+                    "regex": "^[a-z0-9A-Z]{1,30}$",
+                    "validationMessage": "Only alphanumeric characters are allowed, and the value must be 1-30 characters long."
+                }
+            }
         ],
         "steps": [
             {
-                "name": "storageConfig",
-                "label": "Storage settings",
+                "name": "workspaceConfig",
+                "label": "Workspace settings",
                 "subLabel": {
-                    "preValidation": "Configure the infrastructure settings",
+                    "preValidation": "Configure the workspace settings",
                     "postValidation": "Done"
                 },
-                "bladeTitle": "Storage settings",
-                "elements": [
-                    {
-                        "name": "storageAccounts",
-                        "type": "Microsoft.Storage.MultiStorageAccountCombo",
-                        "label": {
-                            "prefix": "Storage account name prefix",
-                            "type": "Storage account type"
-                        },
-                        "defaultValue": {
-                            "type": "Standard_LRS"
-                        },
-                        "constraints": {
-                            "allowedTypes": [
-                                "Premium_LRS",
-                                "Standard_LRS",
-                                "Standard_GRS"
-                            ]
-                        }
-                    }
-                ]
+                "bladeTitle": "Workspace settings",
+                "elements": []
             }
         ],
         "outputs": {
-            "storageAccountNamePrefix": "[steps('storageConfig').storageAccounts.prefix]",
-            "storageAccountType": "[steps('storageConfig').storageAccounts.type]",
+            "name": "[basics('workspaceName')]",
             "location": "[location()]"
-        }
+        },
+        "resourceTypes": [
+            "Microsoft.Experimentation/experimentWorkspaces"
+        ]
     }
 }
